@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+	<!-- Default panel contents -->
+	<div class="panel-heading">Passwort für '<?php echo $user;?>' ändern </div>
+
+	<div class="panel-body">
+		<form method="POST"
+			action="<?php echo $this->url('htpasswdmanager', array('action' => 'edit', 'user' => $user)); ?>">
+			<label for="password">Neues Passwort:</label> <input name='password'
+				type='password' />
+				<input type="submit" value="speichern" class='btn btn-default btn-sm'/>
+		</form>
+	</div>
+</div>

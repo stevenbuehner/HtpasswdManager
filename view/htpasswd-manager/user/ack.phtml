@@ -1,0 +1,23 @@
+<?php
+$escaper = new Zend\Escaper\Escaper ( 'utf-8' );
+?>
+
+<div class="panel panel-default">
+	<!-- Default panel contents -->
+	<div class="panel-heading">Bestätigung</div>
+
+	<div class="panel-body">
+		
+<?php
+
+foreach ( $messages as $msg ) {
+	$_msg = $escaper->escapeHtml ( $msg );
+	echo "<br/><div class='alert alert-success' role='alert'>{$_msg}</div>";
+}
+?>	
+
+<br /> <a class='btn btn-default'
+			href='<?php echo $this->url('htpasswdmanager', array('action' => 'index')); ?>'>Zurück</a>
+	</div>
+
+</div>
