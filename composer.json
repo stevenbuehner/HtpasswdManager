@@ -2,7 +2,6 @@
     "name": "stevenbuehner/htpasswd-manager",
     "description": "A module for Zend Framework 2 to manage an apache .htpasswd file for Basic Authentication.",
     "require": {
-        "php": "5.5",
         "zendframework/zend-stdlib": "~2.5"
     },
     "license": "MIT",
