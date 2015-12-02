@@ -1,9 +1,8 @@
 <?php
 
 /**
- * @source http://innvo.com/1311865299-htpasswd-manager 
- * @author steven
- *
+ * @author Steven Bühner
+ * @license MIT
  */
 namespace HtpasswdManager\Service;
 

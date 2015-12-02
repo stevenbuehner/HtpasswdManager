@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Steven Bühner
  * 
  * @copyright Steven Bühner
- * @license private usage. No usage without permission
+ * @license MIT
  */
 namespace HtpasswdManager\Controller;
 

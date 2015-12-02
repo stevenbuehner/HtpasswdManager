@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Steven B�hner
+ * Steven Bühner
  * 
- * @copyright Steven B�hner
- * @license private usage. No usage without permission
+ * @copyright Steven Bühner
+ * @license MIT
  */
 namespace HtpasswdManager;
 
