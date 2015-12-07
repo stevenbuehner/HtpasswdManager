@@ -32,34 +32,35 @@ $escaper = new Zend\Escaper\Escaper ( 'utf-8' );
 		</thead>
   
   <?php
-		foreach ( $userList as $user ) {
-			echo "<tr>";
-			echo "<td>{$user['username']}</td>";
-			
-			echo "<td>" . substr ( $user ['paswd'], 0, 5 ) . '...' . substr ( $user ['paswd'], strlen ( $user ['paswd'] ) - 3, 3 ) . '</td>';
-			
-			echo "<td>";
-			echo (true === $user ['isAdmin']) ? 'admin' : '';
-			echo "</td>";
-			
-			echo "<td><a class='btn btn-default btn-sm' href='" . $this->url ( "htpasswdmanager", array (
-					"action" => "edit",
-					"user" => $user['username'] 
-			) ) . "'>Passwort ändern</a></td>";
-			
-			echo "<td>";
-			
-			if (true === $user ['isDeletable']) {
-				echo "<a class='btn btn-danger btn-sm' href='" . $this->url ( "htpasswdmanager", array (
-						"action" => "delete",
-						"user" => $user['username'] 
-				) ) . "'>löschen</a>";
+		if (isset ( $userList )) {
+			foreach ( $userList as $user ) {
+				echo "<tr>";
+				echo "<td>{$user['username']}</td>";
+				
+				echo "<td>" . substr ( $user ['paswd'], 0, 5 ) . '...' . substr ( $user ['paswd'], strlen ( $user ['paswd'] ) - 3, 3 ) . '</td>';
+				
+				echo "<td>";
+				echo (true === $user ['isAdmin']) ? 'admin' : '';
+				echo "</td>";
+				
+				echo "<td><a class='btn btn-default btn-sm' href='" . $this->url ( "htpasswdmanager", array (
+						"action" => "edit",
+						"user" => $user ['username'] 
+				) ) . "'>Passwort ändern</a></td>";
+				
+				echo "<td>";
+				
+				if (true === $user ['isDeletable']) {
+					echo "<a class='btn btn-danger btn-sm' href='" . $this->url ( "htpasswdmanager", array (
+							"action" => "delete",
+							"user" => $user ['username'] 
+					) ) . "'>löschen</a>";
+				}
+				echo "</td>";
+				
+				echo "</tr>";
 			}
-			echo "</td>";
-			
-			echo "</tr>";
 		}
-		
 		?>
  
   </table>
