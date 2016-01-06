@@ -12,6 +12,7 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use HtpasswdManager\Service\HtpasswdService;
+use HtpasswdManager\Service\UserService;
 
 class Module implements AutoloaderProviderInterface {
 
@@ -66,9 +67,15 @@ class Module implements AutoloaderProviderInterface {
 							$service = new HtpasswdService ( $htpasswd_filename, $not_deletable_users, $user_with_management_permission );
 							
 							return $service;
+						},
+						'HtpasswdManager\Service\UserService' => function ($sm) {
+							$request = $sm->get ( 'Request' );
+							$service = new UserService ( $request );
+							
+							return $service;
 						} 
 				) 
 		);
 	}
-
+	
 }
