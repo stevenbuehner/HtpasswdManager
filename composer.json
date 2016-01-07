@@ -9,7 +9,8 @@
         "apache"
     ],
     "require": {
-        "zendframework/zend-stdlib": "~2.5"
+        "zendframework/zend-stdlib": "~2.5",
+        "stevenbuehner/role-interfaces : "~0"
     },
     "license": "MIT",
     "type" : "library",

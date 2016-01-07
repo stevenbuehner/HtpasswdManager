@@ -16,7 +16,8 @@ $escaper = new Zend\Escaper\Escaper ( 'utf-8' );
 	<div class="panel-heading">Angelegte Benutzer</div>
 	<div class="panel-heading">
 		<a class='btn btn-default'
-			href='<?php echo $this->url('htpasswdmanager', array('action' => 'add')); ?>'>Neu</a>
+			href='<?php echo $this->url('htpasswdmanager', array('action' => 'add')); ?>'>Neuer
+			Benutzer</a>
 	</div>
 
 	<!-- Table -->
@@ -25,9 +26,13 @@ $escaper = new Zend\Escaper\Escaper ( 'utf-8' );
 			<tr>
 				<th>Benutzername</th>
 				<th>Passwort</th>
+				<?php
+				if (true === $enableGroups) {
+					echo "<th>Gruppen</th>";
+				}
+				?>
 				<th>Admin-Rechte</th>
-				<th></th>
-				<th></th>
+				<th>Aktionen</th>
 			</tr>
 		</thead>
   
@@ -39,23 +44,38 @@ $escaper = new Zend\Escaper\Escaper ( 'utf-8' );
 				
 				echo "<td>" . substr ( $user ['paswd'], 0, 5 ) . '...' . substr ( $user ['paswd'], strlen ( $user ['paswd'] ) - 3, 3 ) . '</td>';
 				
+				// Gruppen
+				if (true === $enableGroups) {
+					echo "<td>";
+					echo $this->partial ( 'htgroup-manager/group/group-select2.partial.phtml', array (
+							'username' => $user ['username'],
+							'allGroups' => $allGroups 
+					) );
+					
+					echo "</td>";
+				}
+				
+				// ist Admin
 				echo "<td>";
 				echo (true === $user ['isAdmin']) ? 'admin' : '';
 				echo "</td>";
 				
-				echo "<td><a class='btn btn-default btn-sm' href='" . $this->url ( "htpasswdmanager", array (
-						"action" => "edit",
-						"user" => $user ['username'] 
-				) ) . "'>Passwort ändern</a></td>";
-				
 				echo "<td>";
 				
+				// Link um Passwort zu änden
+				echo "<a class='btn btn-default btn-sm' href='" . $this->url ( "htpasswdmanager", array (
+						"action" => "edit",
+						"user" => $user ['username'] 
+				) ) . "'>Passwort ändern</a>";
+				
+				// Link um Benutzer zu löschen
 				if (true === $user ['isDeletable']) {
 					echo "<a class='btn btn-danger btn-sm' href='" . $this->url ( "htpasswdmanager", array (
 							"action" => "delete",
 							"user" => $user ['username'] 
 					) ) . "'>löschen</a>";
 				}
+				
 				echo "</td>";
 				
 				echo "</tr>";

@@ -12,6 +12,7 @@ use Zend\View\Model\ViewModel;
 
 class UserController extends AbstractActionController {
 	private $htpasswdService = null;
+	private $htgroupService = null;
 
 	/**
 	 * Check Login
@@ -31,21 +32,38 @@ class UserController extends AbstractActionController {
 	}
 
 	function indexAction() {
-		$htpasswd = $this->getHtpasswdService ();
-		$userList = $htpasswd->getUserList ();
+		$htpasswdService = $this->getHtpasswdService ();
+		$userList = $htpasswdService->getUserList ();
+		
+		/* @var $htgroupService \HtgroupManager\Service\HtgroupService */
+		$htgroupService = $this->getHtgroupService ();
 		
 		$result = array ();
 		foreach ( $userList as $username => $pass ) {
+			$groups = null;
+			
+			if (false !== $htgroupService) {
+				$groups = $htgroupService->getGroupsByUser ( $username );
+			}
+			
 			$result [] = array (
 					'username' => $username,
 					'paswd' => $pass,
-					'isAdmin' => $htpasswd->isUserAllowedToManageUsers ( $username ),
-					'isDeletable' => $htpasswd->isUserDeleteable ( $username ) 
+					'groups' => $groups,
+					'isAdmin' => $htpasswdService->isUserAllowedToManageUsers ( $username ),
+					'isDeletable' => $htpasswdService->isUserDeleteable ( $username ) 
 			);
 		}
 		
+		$allGroups = null;
+		if (false !== $htgroupService) {
+			$allGroups = $htgroupService->getGroups ();
+		}
+		
 		$model = new ViewModel ( array (
-				'userList' => $result 
+				'userList' => $result,
+				'enableGroups' => $htgroupService !== false,
+				'allGroups' => $allGroups 
 		) );
 		
 		return $model;
@@ -176,6 +194,24 @@ class UserController extends AbstractActionController {
 		}
 		
 		return $this->htpasswdService;
+	}
+
+	/**
+	 *
+	 * @return false | \HtgroupManager\Service\HtgroupService
+	 */
+	private function getHtgroupService() {
+		if ($this->htgroupService === null) {
+			$sl = $this->getServiceLocator ();
+			
+			if (true == $sl->has ( 'HtgroupManager\Service\HtgroupService' )) {
+				$this->htgroupService = $sl->get ( 'HtgroupManager\Service\HtgroupService' );
+			} else {
+				return false;
+			}
+		}
+		
+		return $this->htgroupService;
 	}
 
 }
