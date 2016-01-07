@@ -10,7 +10,7 @@
     ],
     "require": {
         "zendframework/zend-stdlib": "~2.5",
-        "stevenbuehner/role-interfaces" : "~0.1"
+        "stevenbuehner/role-interfaces" : "dev-master"
     },
     "license": "MIT",
     "type" : "library",
