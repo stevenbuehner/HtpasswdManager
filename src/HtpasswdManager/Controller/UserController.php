@@ -35,35 +35,20 @@ class UserController extends AbstractActionController {
 		$htpasswdService = $this->getHtpasswdService ();
 		$userList = $htpasswdService->getUserList ();
 		
-		/* @var $htgroupService \HtgroupManager\Service\HtgroupService */
-		$htgroupService = $this->getHtgroupService ();
-		
-		$result = array ();
+		$result = array();
 		foreach ( $userList as $username => $pass ) {
-			$groups = null;
 			
-			if (false !== $htgroupService) {
-				$groups = $htgroupService->getGroupsByUser ( $username );
-			}
-			
-			$result [] = array (
+			$result [] = array( 
 					'username' => $username,
 					'paswd' => $pass,
-					'groups' => $groups,
 					'isAdmin' => $htpasswdService->isUserAllowedToManageUsers ( $username ),
 					'isDeletable' => $htpasswdService->isUserDeleteable ( $username ) 
 			);
 		}
 		
-		$allGroups = null;
-		if (false !== $htgroupService) {
-			$allGroups = $htgroupService->getGroups ();
-		}
-		
-		$model = new ViewModel ( array (
+		$model = new ViewModel ( array( 
 				'userList' => $result,
-				'enableGroups' => $htgroupService !== false,
-				'allGroups' => $allGroups 
+				'enableGroups' => $htgroupService !== false 
 		) );
 		
 		return $model;
@@ -71,7 +56,7 @@ class UserController extends AbstractActionController {
 
 	public function deleteAction() {
 		$user = $this->params ( 'user' );
-		$messages = array ();
+		$messages = array();
 		
 		if (true === $this->getHtpasswdService ()->isUserDeleteable ( $user )) {
 			$this->getHtpasswdService ()->deleteUser ( $user );
@@ -89,7 +74,7 @@ class UserController extends AbstractActionController {
 
 	public function editAction() {
 		$user = $this->params ( 'user' );
-		$messages = array ();
+		$messages = array();
 		$htpasswd = $this->getHtpasswdService ();
 		
 		$model = new ViewModel ();
@@ -99,7 +84,7 @@ class UserController extends AbstractActionController {
 		if (! isset ( $post ['password'] )) {
 			// Formular initialisieren
 			if (false === $htpasswd->userExists ( $user )) {
-				$this->redirect ()->toRoute ( 'htpasswdmanager', array (
+				$this->redirect ()->toRoute ( 'htpasswdmanager', array( 
 						'action' => 'index' 
 				) );
 			}
@@ -120,12 +105,12 @@ class UserController extends AbstractActionController {
 	public function addAction() {
 		$username = $post = $this->getRequest ()->getPost ( 'username', '' );
 		$password = $post = $this->getRequest ()->getPost ( 'password', '' );
-		$messages = array ();
+		$messages = array();
 		$model = new ViewModel ();
 		
 		$post = $this->getRequest ()->getPost ();
 		if (! isset ( $post ['username'] )) {
-			return new ViewModel ( array (
+			return new ViewModel ( array( 
 					'username' => $username,
 					'password' => $password,
 					'messages' => $messages 
@@ -194,24 +179,6 @@ class UserController extends AbstractActionController {
 		}
 		
 		return $this->htpasswdService;
-	}
-
-	/**
-	 *
-	 * @return false | \HtgroupManager\Service\HtgroupService
-	 */
-	private function getHtgroupService() {
-		if ($this->htgroupService === null) {
-			$sl = $this->getServiceLocator ();
-			
-			if (true == $sl->has ( 'HtgroupManager\Service\HtgroupService' )) {
-				$this->htgroupService = $sl->get ( 'HtgroupManager\Service\HtgroupService' );
-			} else {
-				return false;
-			}
-		}
-		
-		return $this->htgroupService;
 	}
 
 }

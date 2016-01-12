@@ -47,9 +47,8 @@ $escaper = new Zend\Escaper\Escaper ( 'utf-8' );
 				// Gruppen
 				if (true === $enableGroups) {
 					echo "<td>";
-					echo $this->partial ( 'htgroup-manager/group/group-select2.partial.phtml', array (
-							'username' => $user ['username'],
-							'allGroups' => $allGroups 
+					echo $this->partial ( 'htgroup-manager/group/group-select2.partial.phtml', array( 
+							'username' => $user ['username'] 
 					) );
 					
 					echo "</td>";
@@ -63,14 +62,14 @@ $escaper = new Zend\Escaper\Escaper ( 'utf-8' );
 				echo "<td>";
 				
 				// Link um Passwort zu änden
-				echo "<a class='btn btn-default btn-sm' href='" . $this->url ( "htpasswdmanager", array (
+				echo "<a class='btn btn-default btn-sm' href='" . $this->url ( "htpasswdmanager", array( 
 						"action" => "edit",
 						"user" => $user ['username'] 
 				) ) . "'>Passwort ändern</a>";
 				
 				// Link um Benutzer zu löschen
 				if (true === $user ['isDeletable']) {
-					echo "<a class='btn btn-danger btn-sm' href='" . $this->url ( "htpasswdmanager", array (
+					echo "<a class='btn btn-danger btn-sm' href='" . $this->url ( "htpasswdmanager", array( 
 							"action" => "delete",
 							"user" => $user ['username'] 
 					) ) . "'>löschen</a>";
