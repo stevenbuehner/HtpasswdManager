@@ -9,8 +9,6 @@ namespace HtpasswdManager\Service;
 class HtpasswdService {
 	private $fp;
 	private $filename;
-	private $notDeletableUsers;
-	private $userWithManagementPermission;
 	
 	// Caching of htpasswd-file
 	private $userListCache = null;
@@ -19,10 +17,8 @@ class HtpasswdService {
 	// Static Variables
 	static $REGULAR_USER_PASSWORD = '~^([^:]+):(.+)$~im';
 
-	public function __construct($htpasswd_filename, $notDeletableUsers = array(), $userWithManagementPermission = array()) {
+	public function __construct($htpasswd_filename) {
 		$this->filename = $htpasswd_filename;
-		$this->notDeletableUsers = $notDeletableUsers;
-		$this->userWithManagementPermission = $userWithManagementPermission;
 		$this->createFileIfNotExistant ();
 	}
 
@@ -50,7 +46,7 @@ class HtpasswdService {
 
 	public function getUserList() {
 		if ($this->userListCache === null) {
-			$result = array ();
+			$result = array();
 			
 			$content = $this->getHtpasswdContent ();
 			
@@ -130,20 +126,6 @@ class HtpasswdService {
 		return false;
 	}
 
-	public function isUserDeleteable($username) {
-		return ! in_array ( $username, $this->notDeletableUsers );
-	}
-
-	public function isUserAllowedToManageUsers($username) {
-		/* If parameter is an array => allow only users in list. IF parameter is boolean, return boolean value */
-		if (is_array ( $this->userWithManagementPermission )) {
-			$accessAllowed = in_array ( $username, $this->userWithManagementPermission );
-		} else {
-			$accessAllowed = ($this->userWithManagementPermission === true);
-		}
-		
-		return $accessAllowed;
-	}
 }
 
 ?>

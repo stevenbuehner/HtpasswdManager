@@ -13,6 +13,7 @@ use Zend\View\Model\ViewModel;
 class UserController extends AbstractActionController {
 	private $htpasswdService = null;
 	private $htgroupService = null;
+	private $userService = null;
 
 	/**
 	 * Check Login
@@ -20,10 +21,9 @@ class UserController extends AbstractActionController {
 	 * @see \Zend\Mvc\Controller\AbstractActionController::onDispatch()
 	 */
 	public function onDispatch(\Zend\Mvc\MvcEvent $e) {
-		$username = $this->request->getServer ()->get ( 'REMOTE_USER', 'NoUser' );
+		$username = $this->getUserService()->getCurrentUser();
 		
-		if (false === $this->getHtpasswdService ()->isUserAllowedToManageUsers ( $username )) {
-			
+		if (false === $this->getUserService ()->isUserAllowedToManageUsers ( $username )) {
 			$this->getResponse ()->setStatusCode ( 401 );
 			return;
 		}
@@ -41,14 +41,16 @@ class UserController extends AbstractActionController {
 			$result [] = array( 
 					'username' => $username,
 					'paswd' => $pass,
-					'isAdmin' => $htpasswdService->isUserAllowedToManageUsers ( $username ),
-					'isDeletable' => $htpasswdService->isUserDeleteable ( $username ) 
+					'isAdmin' => $this->getUserService ()->isUserAllowedToManageUsers ( $username ),
+					'isDeletable' => $this->getUserService ()->isUserDeleteable ( $username ) 
 			);
 		}
 		
+		$userService = $this->getServiceLocator ()->get ( 'HtpasswdManager\Service\UserService' );
+		
 		$model = new ViewModel ( array( 
 				'userList' => $result,
-				'enableGroups' => $htgroupService !== false 
+				'currentUser' => $userService->getCurrentUser () 
 		) );
 		
 		return $model;
@@ -179,6 +181,15 @@ class UserController extends AbstractActionController {
 		}
 		
 		return $this->htpasswdService;
+	}
+
+	private function getUserService() {
+		if ($this->userService === null) {
+			$sl = $this->getServiceLocator ();
+			$this->userService = $sl->get ( 'HtpasswdManager\Service\UserService' );
+		}
+		
+		return $this->userService;
 	}
 
 }

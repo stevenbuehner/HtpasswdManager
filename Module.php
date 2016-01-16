@@ -17,9 +17,9 @@ use HtpasswdManager\Service\UserService;
 class Module implements AutoloaderProviderInterface {
 
 	public function getAutoloaderConfig() {
-		return array (
-				'Zend\Loader\StandardAutoloader' => array (
-						'namespaces' => array (
+		return array( 
+				'Zend\Loader\StandardAutoloader' => array( 
+						'namespaces' => array( 
 								// if we're in a namespace deeper than one level we need to fix the \ in the path
 								__NAMESPACE__ => __DIR__ . '/src/' . str_replace ( '\\', '/', __NAMESPACE__ ) 
 						) 
@@ -40,8 +40,8 @@ class Module implements AutoloaderProviderInterface {
 	}
 
 	public function getServiceConfig() {
-		return array (
-				'factories' => array (
+		return array( 
+				'factories' => array( 
 						'HtpasswdManager\Service\HtpasswdService' => function ($sm) {
 							$config = $sm->get ( 'Config' );
 							
@@ -49,33 +49,13 @@ class Module implements AutoloaderProviderInterface {
 								throw new \Exception ( 'HtpasswdManager Config not found' );
 							}
 							
-							// Default
-							$not_deletable_users = array ();
-							if (isset ( $config ['HtpasswdManager'] ['not_deletable_users'] ) && is_array ( $config ['HtpasswdManager'] ['not_deletable_users'] )) {
-								$not_deletable_users = $config ['HtpasswdManager'] ['not_deletable_users'];
-							}
-							
-							// Default
-							$user_with_management_permission = true;
-							if (isset ( $config ['HtpasswdManager'] ['usermanagement_users'] ) && is_array ( $config ['HtpasswdManager'] ['usermanagement_users'] )) {
-								$user_with_management_permission = $config ['HtpasswdManager'] ['usermanagement_users'];
-							} else if ($config ['HtpasswdManager'] ['usermanagement_users'] === false) {
-								$user_with_management_permission = false;
-							}
-							
 							$htpasswd_filename = $config ['HtpasswdManager'] ['htpasswd'];
-							$service = new HtpasswdService ( $htpasswd_filename, $not_deletable_users, $user_with_management_permission );
-							
-							return $service;
-						},
-						'HtpasswdManager\Service\UserService' => function ($sm) {
-							$request = $sm->get ( 'Request' );
-							$service = new UserService ( $request );
+							$service = new HtpasswdService ( $htpasswd_filename );
 							
 							return $service;
 						} 
 				) 
 		);
 	}
-	
+
 }

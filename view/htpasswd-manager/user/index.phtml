@@ -1,5 +1,13 @@
 <?php
 $escaper = new Zend\Escaper\Escaper ( 'utf-8' );
+
+try {
+	$gs = $this->htGroupManagerService ();
+	$enableGroups = true;
+} catch ( ServiceNotFoundException $e ) {
+	$enableGroups = false;
+}
+
 ?>
 
 <div class="panel panel-default">
@@ -48,7 +56,8 @@ $escaper = new Zend\Escaper\Escaper ( 'utf-8' );
 				if (true === $enableGroups) {
 					echo "<td>";
 					echo $this->partial ( 'htgroup-manager/group/group-select2.partial.phtml', array( 
-							'username' => $user ['username'] 
+							'username' => $user ['username'],
+							'currentUser' => $currentUser 
 					) );
 					
 					echo "</td>";
