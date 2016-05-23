@@ -60,7 +60,7 @@ class UserController extends AbstractActionController {
 		$user = $this->params ( 'user' );
 		$messages = array();
 		
-		if (true === $this->getHtpasswdService ()->isUserDeleteable ( $user )) {
+		if (true === $this->getUserService ()->isUserDeleteable ( $user )) {
 			$this->getHtpasswdService ()->deleteUser ( $user );
 			$messages [] = "Der Benutzer '{$user}' wurde gelöscht.";
 		} else {
