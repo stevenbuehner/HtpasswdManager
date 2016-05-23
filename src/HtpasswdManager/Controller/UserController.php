@@ -21,7 +21,7 @@ class UserController extends AbstractActionController {
 	 * @see \Zend\Mvc\Controller\AbstractActionController::onDispatch()
 	 */
 	public function onDispatch(\Zend\Mvc\MvcEvent $e) {
-		$username = $this->getUserService()->getCurrentUser();
+		$username = $this->getUserService ()->getCurrentUser ();
 		
 		if (false === $this->getUserService ()->isUserAllowedToManageUsers ( $username )) {
 			$this->getResponse ()->setStatusCode ( 401 );
