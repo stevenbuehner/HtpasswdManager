@@ -1,32 +1,44 @@
 {
-    "name": "stevenbuehner/htpasswd-manager",
-    "description": "A module for Zend Framework 2 to manage an apache .htpasswd file for Basic Authentication.",
-    "keywords": [
-        "zf2",
-        "zend",
-        "module",
-        "htpasswd",
-        "apache"
-    ],
-    "require": {
-        "zendframework/zend-stdlib": "~2.5",
-        "stevenbuehner/role-interfaces" : "~0.1"
+  "name": "stevenbuehner/htpasswd-manager",
+  "description": "A module for Zend Framework 2 to manage an apache .htpasswd file for Basic Authentication.",
+  "keywords": [
+    "zf2",
+    "zend",
+    "module",
+    "htpasswd",
+    "apache"
+  ],
+  "require": {
+    "zendframework/zend-stdlib": "~2.5",
+    "stevenbuehner/role-interfaces": "~0.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8",
+    "zendframework/zend-loader": "^2.5",
+    "zendframework/zend-servicemanager": "^3.1",
+    "zendframework/zend-mvc": "^2.7",
+    "zendframework/zend-modulemanager": "^2.7",
+    "zendframework/zend-view": "^2.7",
+    "zendframework/zend-serializer": "^2.7",
+    "zendframework/zend-log": "^2.8",
+    "zendframework/zend-i18n": "^2.7",
+    "zendframework/zend-test": "^2.6"
+  },
+  "license": "MIT",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "HtpasswdManager\\": "src/"
     },
-    "license": "MIT",
-    "type" : "library",
-    "autoload": {
-        "psr-4": {
-            "HtpasswdManager\\": "src/"
-        },
-        "classmap": [
-            "src/",
-            "Module.php"
-        ]
-    },
-    "authors": [
-        {
-            "name": "Steven Buehner",
-            "email": "buehner@me.com"
-        }
+    "classmap": [
+      "src/",
+      "Module.php"
     ]
+  },
+  "authors": [
+    {
+      "name": "Steven Buehner",
+      "email": "buehner@me.com"
+    }
+  ]
 }
