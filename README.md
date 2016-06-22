@@ -1,4 +1,4 @@
-![Scrutinizer](https://scrutinizer-ci.com/g/stevenbuehner/HtpasswdManager/badges/quality-score.png) ![Travis](https://api.travis-ci.org/stevenbuehner/HtpasswdManager.svg)
+[![Build Status](https://scrutinizer-ci.com/g/stevenbuehner/HtpasswdManager/badges/build.png?b=master)](https://scrutinizer-ci.com/g/stevenbuehner/HtpasswdManager/build-status/master)
 
 # zf2-htpasswd-module
 A ZendFramework 2 Module to manage users in a htpasswd file with basic authentication
