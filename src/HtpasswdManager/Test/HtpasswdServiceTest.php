@@ -22,6 +22,8 @@ class HtpasswdServiceTest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->assertFileNotExists($testFile);
+
+        new HtpasswdService($testFile);
         $this->assertFileExists($testFile);
 
         // Cleanup
@@ -129,6 +131,7 @@ class HtpasswdServiceTest extends \PHPUnit_Framework_TestCase {
         $this->assertFileExists($testFile);
 
         $service  = new HtpasswdService($testFile);
+        $service->getUserList();
 
         $this->assertTrue($service->userExists('steven'), 'User should exist');
         $this->assertTrue($service->userExists('blub'), 'User should exist');
