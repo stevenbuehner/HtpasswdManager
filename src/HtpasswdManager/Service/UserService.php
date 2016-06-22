@@ -73,5 +73,3 @@ class UserService implements EventManagerAwareInterface {
 	}
 
 }
-
-?>

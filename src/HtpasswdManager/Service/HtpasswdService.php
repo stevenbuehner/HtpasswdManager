@@ -7,7 +7,6 @@
 namespace HtpasswdManager\Service;
 
 class HtpasswdService {
-	private $fp;
 	private $filename;
 	
 	// Caching of htpasswd-file
@@ -15,7 +14,7 @@ class HtpasswdService {
 	private $htpasswdCache = null;
 	
 	// Static Variables
-	static $REGULAR_USER_PASSWORD = '~^([^:]+):(.+)$~im';
+	protected static $REGULAR_USER_PASSWORD = '~^([^:]+):(.+)$~im';
 
 	public function __construct($htpasswd_filename) {
 		$this->filename = $htpasswd_filename;
@@ -86,8 +85,6 @@ class HtpasswdService {
 	}
 
 	public function deleteUser($username) {
-		$content = $this->getHtpasswdContent ();
-		
 		$newContent = '';
 		$usernameDeleted = false;
 		
@@ -109,7 +106,7 @@ class HtpasswdService {
 	}
 
 	private function replaceHtPasswdContent($newContent) {
-		// file_put_contents ( $this->filename, $newContent );
+		// Alternative: file_put_contents ( $this->filename, $newContent );
 		$fp = fopen ( $this->filename, 'w' );
 		fwrite ( $fp, $newContent );
 		fclose ( $fp );
@@ -127,5 +124,3 @@ class HtpasswdService {
 	}
 
 }
-
-?>
