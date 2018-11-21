@@ -159,7 +159,7 @@ class UserController extends AbstractActionController {
     private function isUsernameValid($username) {
         if (strlen($username) <= 2)
             return "Benutzername ist zu kurz.";
-        else if (preg_match('~[a-zäöo][a-zäöu_0-9-]+~i', $username) !== 1)
+        else if (preg_match_all('~[a-z][a-z_0-9-]+~i', $username) !== 1)
             return "Benutzername enthält ungültige Zeichen";
         else if (strpos($username, ' ') !== false)
             return "Leerzeichen sind im Benutzernamen nicht erlaubt";
